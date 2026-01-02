@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Letter to You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #2c2c2c;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        /* Wood Texture Background */
+        .desk {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(#5d4037, #3e2723);
+            z-index: -1;
+        }
+
+        /* --- THE ENVELOPE --- */
+        .envelope-container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            cursor: pointer;
+            transition: transform 0.6s ease;
+            z-index: 10;
+        }
+
+        .envelope-container:hover {
+            transform: scale(1.02);
+        }
+
+        .envelope-body {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: #d4c5a9;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        /* Envelope Flaps */
+        .flap {
+            position: absolute;
+            width: 0; height: 0;
+            z-index: 3;
+        }
+        .flap.left {
+            border-left: 150px solid #c7b69c;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid transparent;
+            top: 0; left: 0;
+        }
+        .flap.right {
+            border-right: 150px solid #c7b69c;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid transparent;
+            top: 0; right: 0;
+        }
+        .flap.bottom {
+            border-bottom: 110px solid #baa68a;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            bottom: 0; left: 0;
+            z-index: 4;
+        }
+        .flap.top {
+            border-top: 110px solid #e0d5c1;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            top: 0; left: 0;
+            transform-origin: top;
+            transition: transform 0.6s 0.2s, z-index 0.2s;
+            z-index: 5;
+        }
+
+        /* Wax Seal */
+        .wax-seal {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -40%);
+            width: 50px; height: 50px;
+            background: #c0392b;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 5px rgba(255,255,255,0.2);
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0,0,0,0.3);
+            font-weight: bold;
+            font-size: 1.5rem;
+            border: 2px dashed rgba(0,0,0,0.2);
+            transition: opacity 0.4s;
+        }
+
+        /* --- THE LETTER PAPER --- */
+        .paper {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.2);
+            width: 300px; 
+            height: 400px;
+            background: #fdfbf7;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 1; /* Starts behind */
+            overflow: hidden;
+            background-image: repeating-linear-gradient(white 0px, white 24px, #e1e8ed 25px);
+            line-height: 25px;
+        }
+
+        .paper.open {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            z-index: 20;
+            height: 450px; /* Expand height */
+        }
+
+        .letter-content {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.3rem;
+            color: #444;
+            white-space: pre-wrap;
+        }
+
+        /* Cursor effect */
+        .cursor {
+            display: inline-block;
+            width: 2px; height: 18px;
+            background: #444;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* --- POLAROID PHOTO --- */
+        .polaroid {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-5deg) scale(0.5);
+            width: 200px;
+            background: #fff;
+            padding: 10px 10px 40px 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 1s ease 0.5s;
+            z-index: 25;
+            pointer-events: none;
+        }
+        .polaroid.show {
+            opacity: 1;
+            transform: translate(40px, 20px) rotate(5deg) scale(1);
+        }
+        .polaroid img {
+            width: 100%;
+            display: block;
+            filter: sepia(30%);
+        }
+
+        .hint {
+            position: absolute;
+            bottom: 50px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            animation: fade 2s infinite;
+        }
+        @keyframes fade { 50% { opacity: 0.2; } }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .paper.open { width: 90%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="desk"></div>
+
+    <div class="envelope-container" id="envelope">
+        <div class="envelope-body">
+            <div class="flap left"></div>
+            <div class="flap right"></div>
+            <div class="flap bottom"></div>
+            <div class="flap top" id="topFlap"></div>
+            <div class="wax-seal" id="seal">♥</div>
+        </div>
+    </div>
+
+    <div class="paper" id="paper">
+        <div class="letter-content" id="letterText"></div><span class="cursor" id="cursor"></span>
+    </div>
+
+    <div class="polaroid" id="polaroid">
+        <img src="https://raw.githubusercontent.com/Partha65/HeartBeatSync/refs/heads/main/file_000000003cbc71faade9b33fffcfd3ee.png" alt="Us">
+    </div>
+
+    <div class="hint" id="hint">Click the seal to open</div>
+
+    <script>
+        const envelope = document.getElementById('envelope');
+        const topFlap = document.getElementById('topFlap');
+        const seal = document.getElementById('seal');
+        const paper = document.getElementById('paper');
+        const letterText = document.getElementById('letterText');
+        const cursor = document.getElementById('cursor');
+        const polaroid = document.getElementById('polaroid');
+        const hint = document.getElementById('hint');
+
+        /* --- YOUR LETTER TEXT HERE --- */
+        // Use \n for new lines
+        const message = `My Dearest,
+
+From the moment I met you, life became a beautiful melody. You are the reason I smile at my phone like an idiot and the reason I look forward to tomorrow.
+
+Thank you for being my rock, my joy, and my best friend.
+
+I love you more than words can write.
+
+Always yours,
+Parth`;
+
+        let isOpen = false;
+
+        envelope.addEventListener('click', () => {
+            if (isOpen) return;
+            isOpen = true;
+
+            // 1. Break Seal
+            seal.style.opacity = '0';
+            hint.style.opacity = '0';
+
+            // 2. Open Flap
+            topFlap.style.zIndex = '1';
+            topFlap.style.transform = 'rotateX(180deg)';
+
+            // 3. Slide Envelope Down & Fade Out
+            setTimeout(() => {
+                envelope.style.transform = 'translateY(200px) scale(0.8)';
+                envelope.style.opacity = '0';
+            }, 600);
+
+            // 4. Reveal Paper
+            setTimeout(() => {
+                paper.classList.add('open');
+                // Start Typing
+                typeWriter();
+            }, 800);
+        });
+
+        let i = 0;
+        function typeWriter() {
+            if (i < message.length) {
+                letterText.innerHTML += message.charAt(i) === '\n' ? '<br>' : message.charAt(i);
+                i++;
+                // Random typing speed for realism
+                setTimeout(typeWriter, Math.random() * 50 + 30);
+            } else {
+                // Done typing
+                cursor.style.display = 'none';
+                
+                // Show Photo
+                setTimeout(() => {
+                    polaroid.classList.add('show');
+                }, 500);
+            }
+        }
+    </script>
+</body>
+</html>
+
