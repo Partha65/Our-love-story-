@@ -1,288 +1,2298 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Letter to You</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-        body {
-            background: #2c2c2c;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Playfair Display', serif;
-            perspective: 1000px;
-            overflow: hidden;
-        }
+<title>Our Little Love Story ♡</title>
 
-        /* Wood Texture Background */
-        .desk {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(#5d4037, #3e2723);
-            z-index: -1;
-        }
+<style>
 
-        /* --- THE ENVELOPE --- */
-        .envelope-container {
-            position: relative;
-            width: 300px;
-            height: 200px;
-            cursor: pointer;
-            transition: transform 0.6s ease;
-            z-index: 10;
-        }
+/* =========================================================
+   FONTS
+========================================================= */
 
-        .envelope-container:hover {
-            transform: scale(1.02);
-        }
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Pacifico&display=swap');
 
-        .envelope-body {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            background: #d4c5a9;
-            border-radius: 5px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 2;
-            overflow: hidden;
-        }
 
-        /* Envelope Flaps */
-        .flap {
-            position: absolute;
-            width: 0; height: 0;
-            z-index: 3;
-        }
-        .flap.left {
-            border-left: 150px solid #c7b69c;
-            border-top: 100px solid transparent;
-            border-bottom: 100px solid transparent;
-            top: 0; left: 0;
-        }
-        .flap.right {
-            border-right: 150px solid #c7b69c;
-            border-top: 100px solid transparent;
-            border-bottom: 100px solid transparent;
-            top: 0; right: 0;
-        }
-        .flap.bottom {
-            border-bottom: 110px solid #baa68a;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            bottom: 0; left: 0;
-            z-index: 4;
-        }
-        .flap.top {
-            border-top: 110px solid #e0d5c1;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            top: 0; left: 0;
-            transform-origin: top;
-            transition: transform 0.6s 0.2s, z-index 0.2s;
-            z-index: 5;
-        }
+/* =========================================================
+   ROOT
+========================================================= */
 
-        /* Wax Seal */
-        .wax-seal {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -40%);
-            width: 50px; height: 50px;
-            background: #c0392b;
-            border-radius: 50%;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 5px rgba(255,255,255,0.2);
-            z-index: 6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(0,0,0,0.3);
-            font-weight: bold;
-            font-size: 1.5rem;
-            border: 2px dashed rgba(0,0,0,0.2);
-            transition: opacity 0.4s;
-        }
+:root{
+    --pink:#ffb6c9;
+    --pink2:#ffdce6;
+    --rose:#ed7898;
+    --dark:#5c3442;
+    --cream:#fffaf5;
+    --paper:#fffdf8;
+    --red:#e96786;
+    --shadow:rgba(101,43,61,.18);
+}
 
-        /* --- THE LETTER PAPER --- */
-        .paper {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.2);
-            width: 300px; 
-            height: 400px;
-            background: #fdfbf7;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            opacity: 0;
-            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
-            z-index: 1; /* Starts behind */
-            overflow: hidden;
-            background-image: repeating-linear-gradient(white 0px, white 24px, #e1e8ed 25px);
-            line-height: 25px;
-        }
 
-        .paper.open {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-            z-index: 20;
-            height: 450px; /* Expand height */
-        }
+/* =========================================================
+   RESET
+========================================================= */
 
-        .letter-content {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.3rem;
-            color: #444;
-            white-space: pre-wrap;
-        }
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
 
-        /* Cursor effect */
-        .cursor {
-            display: inline-block;
-            width: 2px; height: 18px;
-            background: #444;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
+html,
+body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
 
-        /* --- POLAROID PHOTO --- */
-        .polaroid {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) rotate(-5deg) scale(0.5);
-            width: 200px;
-            background: #fff;
-            padding: 10px 10px 40px 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            opacity: 0;
-            transition: all 1s ease 0.5s;
-            z-index: 25;
-            pointer-events: none;
-        }
-        .polaroid.show {
-            opacity: 1;
-            transform: translate(40px, 20px) rotate(5deg) scale(1);
-        }
-        .polaroid img {
-            width: 100%;
-            display: block;
-            filter: sepia(30%);
-        }
+body{
+    font-family:"DM Sans",sans-serif;
+    background:#f7cbd6;
+    color:var(--dark);
+}
 
-        .hint {
-            position: absolute;
-            bottom: 50px;
-            color: rgba(255,255,255,0.5);
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            animation: fade 2s infinite;
-        }
-        @keyframes fade { 50% { opacity: 0.2; } }
 
-        /* Mobile Responsive */
-        @media (max-width: 600px) {
-            .paper.open { width: 90%; }
-        }
+/* =========================================================
+   MAIN BACKGROUND
+========================================================= */
 
-    </style>
+.app{
+
+    width:100%;
+    height:100svh;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            #fff 0,
+            transparent 18%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            #f8aebe 0,
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #ffdfe7,
+            #f8b8ca
+        );
+}
+
+
+/* Paper texture */
+
+.app:before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    opacity:.35;
+
+    pointer-events:none;
+
+    background-image:
+        radial-gradient(
+            rgba(110,60,75,.12) .7px,
+            transparent .7px
+        );
+
+    background-size:7px 7px;
+}
+
+
+/* =========================================================
+   FLOATING DOODLES
+========================================================= */
+
+.doodle{
+
+    position:absolute;
+
+    color:#ffffff88;
+
+    font-family:"Caveat";
+
+    pointer-events:none;
+
+    z-index:1;
+}
+
+.d1{
+    top:7%;
+    left:7%;
+    font-size:38px;
+    transform:rotate(-15deg);
+}
+
+.d2{
+    top:17%;
+    right:8%;
+    font-size:25px;
+    transform:rotate(15deg);
+}
+
+.d3{
+    bottom:14%;
+    left:8%;
+    font-size:30px;
+    transform:rotate(8deg);
+}
+
+.d4{
+    bottom:8%;
+    right:10%;
+    font-size:34px;
+    transform:rotate(-12deg);
+}
+
+
+/* =========================================================
+   APP CONTENT
+========================================================= */
+
+#story{
+
+    width:100%;
+    height:100%;
+
+    position:relative;
+
+    z-index:5;
+}
+
+
+/* =========================================================
+   SCENES
+========================================================= */
+
+.scene{
+
+    position:absolute;
+
+    inset:0;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:
+        22px
+        20px
+        25px;
+
+}
+
+.scene.active{
+
+    display:flex;
+
+    animation:
+        pageIn
+        .65s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+@keyframes pageIn{
+
+    from{
+        opacity:0;
+        transform:
+            scale(.94)
+            rotate(-1deg);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            scale(1)
+            rotate(0);
+    }
+}
+
+
+.content{
+
+    width:min(430px,100%);
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    position:relative;
+}
+
+
+/* =========================================================
+   SCRAPBOOK PAPER
+========================================================= */
+
+.paper{
+
+    width:100%;
+
+    max-height:
+        calc(100svh - 40px);
+
+    padding:
+        25px
+        20px;
+
+    border-radius:24px;
+
+    background:
+
+        linear-gradient(
+            rgba(255,255,255,.75),
+            rgba(255,255,255,.75)
+        );
+
+    box-shadow:
+        0 20px 50px var(--shadow);
+
+    border:
+        1px
+        solid
+        #ffffff;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+
+/* Paper tape */
+
+.tape{
+
+    position:absolute;
+
+    width:75px;
+
+    height:22px;
+
+    background:#f8d8a3aa;
+
+    top:-4px;
+
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        rotate(-2deg);
+
+    box-shadow:
+        0 2px 4px #0001;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+.small-title{
+
+    font-size:10px;
+
+    letter-spacing:.22em;
+
+    text-transform:uppercase;
+
+    color:#b76b7e;
+
+    margin-bottom:8px;
+}
+
+
+.big-script{
+
+    font-family:"Pacifico",cursive;
+
+    font-size:
+        clamp(
+            44px,
+            13vw,
+            70px
+        );
+
+    line-height:1.05;
+
+    color:var(--rose);
+
+    text-align:center;
+
+    margin:0;
+}
+
+
+.title{
+
+    font-family:"Caveat",cursive;
+
+    font-size:
+        clamp(
+            39px,
+            10vw,
+            58px
+        );
+
+    line-height:.95;
+
+    text-align:center;
+
+    color:var(--dark);
+
+    margin:5px 0 12px;
+}
+
+
+.hand{
+
+    font-family:"Caveat",cursive;
+
+    font-size:25px;
+
+    line-height:1.1;
+
+    color:#815260;
+
+    text-align:center;
+}
+
+
+.date{
+
+    font-family:"Caveat",cursive;
+
+    font-size:22px;
+
+    color:#d2607d;
+
+    text-align:center;
+
+    margin:5px 0 10px;
+}
+
+
+/* =========================================================
+   HEART
+========================================================= */
+
+.big-heart{
+
+    width:105px;
+
+    height:105px;
+
+    margin:
+        5px
+        auto
+        16px;
+
+    position:relative;
+
+    transform:rotate(-45deg);
+
+    background:#f38ba7;
+
+    border-radius:
+        10px
+        0
+        10px
+        0;
+
+    box-shadow:
+        8px
+        10px
+        25px
+        #c95d7d44;
+
+    animation:
+        heartbeat
+        2s
+        ease-in-out
+        infinite;
+}
+
+.big-heart:before,
+.big-heart:after{
+
+    content:"";
+
+    position:absolute;
+
+    width:105px;
+
+    height:105px;
+
+    background:#f38ba7;
+
+    border-radius:50%;
+}
+
+.big-heart:before{
+    top:-52px;
+    left:0;
+}
+
+.big-heart:after{
+    left:52px;
+    top:0;
+}
+
+
+@keyframes heartbeat{
+
+    0%,100%{
+        transform:
+            rotate(-45deg)
+            scale(1);
+    }
+
+    50%{
+        transform:
+            rotate(-45deg)
+            scale(1.08);
+    }
+}
+
+
+/* =========================================================
+   PHOTO POLAROID
+========================================================= */
+
+.polaroid{
+
+    width:min(205px,55vw);
+
+    padding:
+        8px
+        8px
+        27px;
+
+    background:white;
+
+    box-shadow:
+        0
+        15px
+        30px
+        #6c344444;
+
+    position:relative;
+
+    margin:8px auto 13px;
+
+    transform:rotate(-3deg);
+
+    transition:.4s;
+}
+
+.polaroid:nth-child(even){
+    transform:rotate(3deg);
+}
+
+.polaroid img{
+
+    width:100%;
+
+    height:
+        min(
+            210px,
+            28svh
+        );
+
+    display:block;
+
+    object-fit:cover;
+}
+
+.polaroid-note{
+
+    position:absolute;
+
+    bottom:4px;
+
+    left:0;
+
+    right:0;
+
+    text-align:center;
+
+    font:
+        21px
+        "Caveat",
+        cursive;
+
+    color:#573540;
+}
+
+
+/* =========================================================
+   TWO PHOTOS
+========================================================= */
+
+.photo-stack{
+
+    width:100%;
+
+    height:230px;
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin:3px 0 10px;
+}
+
+.photo-stack .polaroid{
+
+    position:absolute;
+
+    width:155px;
+}
+
+.photo-stack .polaroid:first-child{
+
+    left:12%;
+
+    transform:
+        rotate(-8deg)
+        translateY(8px);
+
+}
+
+.photo-stack .polaroid:last-child{
+
+    right:12%;
+
+    transform:
+        rotate(7deg)
+        translateY(-5px);
+
+}
+
+
+/* =========================================================
+   MEMORY TEXT
+========================================================= */
+
+.memory{
+
+    text-align:center;
+
+    margin:
+        4px
+        auto
+        9px;
+
+    max-width:360px;
+}
+
+.memory p{
+
+    font:
+        21px
+        1.12
+        "Caveat",
+        cursive;
+
+    color:#704755;
+
+    margin:
+        5px
+        0;
+}
+
+.memory strong{
+    color:#dc6381;
+}
+
+
+/* =========================================================
+   CUTE BUTTON
+========================================================= */
+
+.love-button{
+
+    border:0;
+
+    background:#fff;
+
+    color:#d85e7c;
+
+    font:
+        23px
+        "Caveat",
+        cursive;
+
+    padding:
+        8px
+        22px;
+
+    border-radius:30px;
+
+    box-shadow:
+        0
+        7px
+        18px
+        #b9587330;
+
+    cursor:pointer;
+
+    position:relative;
+
+    transition:.25s;
+
+    margin-top:5px;
+}
+
+.love-button:before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:3px;
+
+    border:
+        1px
+        dashed
+        #f2a5b7;
+
+    border-radius:25px;
+
+}
+
+.love-button:hover,
+.love-button:active{
+
+    transform:
+        translateY(-2px)
+        rotate(-1deg);
+
+    box-shadow:
+        0
+        10px
+        25px
+        #b9587344;
+}
+
+.love-button span{
+    position:relative;
+}
+
+
+/* =========================================================
+   PAGE NUMBER
+========================================================= */
+
+.page-number{
+
+    position:absolute;
+
+    bottom:7px;
+
+    left:0;
+
+    right:0;
+
+    text-align:center;
+
+    font:
+        14px
+        "Caveat",
+        cursive;
+
+    color:#bc8795;
+}
+
+
+/* =========================================================
+   FINAL PHOTO WALL
+========================================================= */
+
+.photo-wall{
+
+    width:100%;
+
+    height:
+        min(
+            48svh,
+            340px
+        );
+
+    position:relative;
+
+    margin:5px 0 9px;
+}
+
+.photo-wall img{
+
+    position:absolute;
+
+    object-fit:cover;
+
+    border:
+        5px
+        solid
+        white;
+
+    box-shadow:
+        0
+        10px
+        20px
+        #71384a33;
+
+    border-radius:2px;
+
+    transition:.3s;
+}
+
+.photo-wall img:nth-child(1){
+    width:45%;
+    height:52%;
+    left:5%;
+    top:5%;
+    transform:rotate(-5deg);
+}
+
+.photo-wall img:nth-child(2){
+    width:38%;
+    height:43%;
+    right:4%;
+    top:2%;
+    transform:rotate(6deg);
+}
+
+.photo-wall img:nth-child(3){
+    width:37%;
+    height:44%;
+    left:10%;
+    bottom:0;
+    transform:rotate(5deg);
+}
+
+.photo-wall img:nth-child(4){
+    width:43%;
+    height:48%;
+    right:8%;
+    bottom:0;
+    transform:rotate(-6deg);
+}
+
+.photo-wall img:nth-child(5){
+    width:29%;
+    height:34%;
+    left:36%;
+    top:34%;
+    transform:rotate(2deg);
+}
+
+
+/* =========================================================
+   ENVELOPE
+========================================================= */
+
+.envelope{
+
+    width:230px;
+
+    height:155px;
+
+    position:relative;
+
+    margin:15px auto;
+
+    cursor:pointer;
+
+    filter:
+        drop-shadow(
+            0
+            14px
+            20px
+            #71384a33
+        );
+
+}
+
+.envelope-body{
+
+    position:absolute;
+
+    inset:0;
+
+    background:#fff8f1;
+
+    border-radius:5px;
+
+}
+
+.envelope-body:before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    clip-path:
+        polygon(
+            0 0,
+            50% 55%,
+            100% 0,
+            100% 100%,
+            0 100%
+        );
+
+    background:#f9dce2;
+
+}
+
+.envelope-flap{
+
+    position:absolute;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:90px;
+
+    background:#ffe9ed;
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            50% 100%
+        );
+
+    transform-origin:top;
+
+    transition:.7s;
+
+    z-index:3;
+}
+
+.envelope.open .envelope-flap{
+
+    transform:
+        rotateX(180deg);
+
+}
+
+.seal{
+
+    position:absolute;
+
+    left:50%;
+
+    top:58%;
+
+    transform:translate(-50%,-50%);
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    background:#ed7898;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:18px;
+
+    z-index:5;
+
+    box-shadow:
+        0
+        4px
+        10px
+        #8e435555;
+
+}
+
+
+/* =========================================================
+   FINAL LETTER
+========================================================= */
+
+.final-letter{
+
+    width:100%;
+
+    background:#fffdf8;
+
+    padding:
+        18px
+        19px;
+
+    border-radius:8px;
+
+    box-shadow:
+        0
+        10px
+        25px
+        #71384a22;
+
+    font:
+        20px
+        1.12
+        "Caveat",
+        cursive;
+
+    color:#67424e;
+
+    text-align:left;
+
+    max-height:43svh;
+
+    overflow:hidden;
+
+    position:relative;
+}
+
+.final-letter:before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    bottom:0;
+    left:35px;
+
+    width:1px;
+
+    background:#f2b7c5;
+
+}
+
+.final-letter p{
+
+    margin:
+        5px
+        0
+        8px
+        25px;
+}
+
+.signature{
+
+    text-align:right;
+
+    font:
+        30px
+        "Pacifico",
+        cursive;
+
+    color:#df6684;
+
+    margin-top:8px;
+}
+
+
+/* =========================================================
+   FLOATING PETALS
+========================================================= */
+
+.petal{
+
+    position:absolute;
+
+    top:-30px;
+
+    z-index:3;
+
+    pointer-events:none;
+
+    animation:
+        fall
+        linear
+        forwards;
+
+    color:#fff;
+
+    opacity:.7;
+
+}
+
+@keyframes fall{
+
+    0%{
+        transform:
+            translateY(-30px)
+            rotate(0);
+        opacity:0;
+    }
+
+    15%{
+        opacity:.8;
+    }
+
+    100%{
+        transform:
+            translateY(110svh)
+            translateX(80px)
+            rotate(360deg);
+        opacity:0;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media(max-height:650px){
+
+    .scene{
+        padding-top:15px;
+        padding-bottom:15px;
+    }
+
+    .paper{
+        padding:
+            18px
+            16px;
+    }
+
+    .title{
+        font-size:38px;
+    }
+
+    .big-script{
+        font-size:48px;
+    }
+
+    .big-heart{
+        width:80px;
+        height:80px;
+        margin-bottom:10px;
+    }
+
+    .big-heart:before,
+    .big-heart:after{
+        width:80px;
+        height:80px;
+    }
+
+    .big-heart:before{
+        top:-40px;
+    }
+
+    .big-heart:after{
+        left:40px;
+    }
+
+    .photo-stack{
+        height:190px;
+    }
+
+    .photo-stack .polaroid{
+        width:135px;
+    }
+
+    .memory p{
+        font-size:18px;
+    }
+
+    .final-letter{
+        font-size:18px;
+    }
+}
+
+</style>
 </head>
+
+
 <body>
 
-    <div class="desk"></div>
+<div class="app">
 
-    <div class="envelope-container" id="envelope">
-        <div class="envelope-body">
-            <div class="flap left"></div>
-            <div class="flap right"></div>
-            <div class="flap bottom"></div>
-            <div class="flap top" id="topFlap"></div>
-            <div class="wax-seal" id="seal">♥</div>
-        </div>
-    </div>
+    <!-- Decorative doodles -->
 
-    <div class="paper" id="paper">
-        <div class="letter-content" id="letterText"></div><span class="cursor" id="cursor"></span>
-    </div>
+    <div class="doodle d1">♡</div>
+    <div class="doodle d2">✦</div>
+    <div class="doodle d3">♡</div>
+    <div class="doodle d4">♥</div>
 
-    <div class="polaroid" id="polaroid">
-        <img src="https://raw.githubusercontent.com/Partha65/HeartBeatSync/refs/heads/main/file_000000003cbc71faade9b33fffcfd3ee.png" alt="Us">
-    </div>
 
-    <div class="hint" id="hint">Click the seal to open</div>
+    <main id="story">
 
-    <script>
-        const envelope = document.getElementById('envelope');
-        const topFlap = document.getElementById('topFlap');
-        const seal = document.getElementById('seal');
-        const paper = document.getElementById('paper');
-        const letterText = document.getElementById('letterText');
-        const cursor = document.getElementById('cursor');
-        const polaroid = document.getElementById('polaroid');
-        const hint = document.getElementById('hint');
 
-        /* --- YOUR LETTER TEXT HERE --- */
-        // Use \n for new lines
-        const message = `My Dearest,
+        <!-- =================================================
+             PAGE 1
+        ================================================== -->
 
-From the moment I met you, life became a beautiful melody. You are the reason I smile at my phone like an idiot and the reason I look forward to tomorrow.
+        <section class="scene active">
 
-Thank you for being my rock, my joy, and my best friend.
+            <div class="content">
 
-I love you more than words can write.
+                <div class="paper">
 
-Always yours,
-Parth`;
+                    <div class="tape"></div>
 
-        let isOpen = false;
+                    <div class="small-title">
+                        Our little story
+                    </div>
 
-        envelope.addEventListener('click', () => {
-            if (isOpen) return;
-            isOpen = true;
+                    <div class="big-heart"></div>
 
-            // 1. Break Seal
-            seal.style.opacity = '0';
-            hint.style.opacity = '0';
+                    <h1 class="big-script">
+                        Our Story
+                    </h1>
 
-            // 2. Open Flap
-            topFlap.style.zIndex = '1';
-            topFlap.style.transform = 'rotateX(180deg)';
+                    <div class="hand">
+                        It all started with one tiny
+                        <strong>Hello...</strong>
+                    </div>
 
-            // 3. Slide Envelope Down & Fade Out
-            setTimeout(() => {
-                envelope.style.transform = 'translateY(200px) scale(0.8)';
-                envelope.style.opacity = '0';
-            }, 600);
+                    <div class="date">
+                        November 26, 2023
+                    </div>
 
-            // 4. Reveal Paper
-            setTimeout(() => {
-                paper.classList.add('open');
-                // Start Typing
-                typeWriter();
-            }, 800);
-        });
+                    <button class="love-button next">
+                        <span>
+                            Open our story ♡
+                        </span>
+                    </button>
 
-        let i = 0;
-        function typeWriter() {
-            if (i < message.length) {
-                letterText.innerHTML += message.charAt(i) === '\n' ? '<br>' : message.charAt(i);
-                i++;
-                // Random typing speed for realism
-                setTimeout(typeWriter, Math.random() * 50 + 30);
-            } else {
-                // Done typing
-                cursor.style.display = 'none';
-                
-                // Show Photo
-                setTimeout(() => {
-                    polaroid.classList.add('show');
-                }, 500);
-            }
+                    <div class="page-number">
+                        01 · ∞
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE 2
+        ================================================== -->
+
+        <section class="scene">
+
+            <div class="content">
+
+                <div class="paper">
+
+                    <div class="tape"></div>
+
+                    <div class="small-title">
+                        Chapter 01
+                    </div>
+
+                    <h2 class="title">
+                        The first little Hello
+                    </h2>
+
+                    <div class="polaroid">
+
+                        <img
+                        src="https://raw.githubusercontent.com/Partha65/Our-love-story-/refs/heads/main/1st%20message.jpg">
+
+                        <div class="polaroid-note">
+                            It started here ♡
+                        </div>
+
+                    </div>
+
+                    <div class="date">
+                        NOVEMBER 26, 2023
+                    </div>
+
+                    <div class="memory">
+
+                        <p>
+                            It all began with a simple
+                            <strong>"Hello"</strong>
+                            in an Instagram DM.
+                        </p>
+
+                        <p>
+                            Just two words...
+                            but somehow they opened
+                            the door to our whole story.
+                        </p>
+
+                    </div>
+
+                    <button class="love-button next">
+                        <span>
+                            And then we met... ♡
+                        </span>
+                    </button>
+
+                    <div class="page-number">
+                        02 · our beginning
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE 3
+        ================================================== -->
+
+        <section class="scene">
+
+            <div class="content">
+
+                <div class="paper">
+
+                    <div class="small-title">
+                        Chapter 02
+                    </div>
+
+                    <h2 class="title">
+                        Our first date
+                    </h2>
+
+                    <div class="photo-stack">
+
+                        <div class="polaroid">
+
+                            <img
+                            src=" https://raw.githubusercontent.com/Partha65/Our-love-story-/refs/heads/main/2dec2023movie.png">
+
+                            <div class="polaroid-note">
+                                movie ♡
+                            </div>
+
+                        </div>
+
+                        <div class="polaroid">
+
+                            <img
+                            src="https://raw.githubusercontent.com/Partha65/Our-love-story-/refs/heads/main/03dec2023.png">
+
+                            <div class="polaroid-note">
+                                us ♡
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="date">
+                        DECEMBER 2, 2023
+                    </div>
+
+                    <div class="memory">
+
+                        <p>
+                            Our first meet.
+                        </p>
+
+                        <p>
+                            Our first movie.
+                        </p>
+
+                        <p>
+                            Our first date.
+                        </p>
+
+                        <p>
+                            And suddenly,
+                            <strong>you weren't just a name on a screen.</strong>
+                        </p>
+
+                    </div>
+
+                    <button class="love-button next">
+                        <span>
+                            Something changed that day...
+                        </span>
+                    </button>
+
+                    <div class="page-number">
+                        03 · first memories
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE 4
+        ================================================== -->
+
+        <section class="scene">
+
+            <div class="content">
+
+                <div class="paper">
+
+                    <div class="tape"></div>
+
+                    <div class="small-title">
+                        Chapter 03
+                    </div>
+
+                    <h2 class="title">
+                        Then you asked...
+                    </h2>
+
+                    <div class="polaroid">
+
+                        <img
+                        src="https://raw.githubusercontent.com/Partha65/Our-love-story-/refs/heads/main/1st%20propose.jpg">
+
+                        <div class="polaroid-note">
+                            the question ♡
+                        </div>
+
+                    </div>
+
+                    <div class="date">
+                        DECEMBER 21, 2023
+                    </div>
+
+                    <div class="memory">
+
+                        <p>
+                            The day you proposed to me.
+                        </p>
+
+                        <p>
+                            I don't think you realized
+                            how big that little question
+                            was going to become.
+                        </p>
+
+                        <p>
+                            But my heart already knew
+                            the answer.
+                        </p>
+
+                        <div class="big-script"
+                             style="font-size:42px;margin-top:4px;">
+                            Yes. ♡
+                        </div>
+
+                    </div>
+
+                    <button class="love-button next">
+                        <span>
+                            But I had a question too...
+                        </span>
+                    </button>
+
+                    <div class="page-number">
+                        04 · the yes
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE 5
+        ================================================== -->
+
+        <section class="scene">
+
+            <div class="content">
+
+                <div class="paper">
+
+                    <div class="small-title">
+                        Chapter 04
+                    </div>
+
+                    <h2 class="title">
+                        My turn 🌹
+                    </h2>
+
+                    <div class="polaroid">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=700&q=85">
+
+                        <div class="polaroid-note">
+                            with a rose 🌹
+                        </div>
+
+                    </div>
+
+                    <div class="date">
+                        MARCH 30, 2024
+                    </div>
+
+                    <div class="memory">
+
+                        <p>
+                            I couldn't let you have
+                            the only proposal story.
+                        </p>
+
+                        <p>
+                            So, with a
+                            <strong>rose in the cinema hall</strong>,
+                            I asked you to be mine too.
+                        </p>
+
+                        <p>
+                            Because if you were brave
+                            enough to ask me...
+                        </p>
+
+                        <p>
+                            I wanted you to know
+                            that I would choose you too.
+                        </p>
+
+                    </div>
+
+                    <div class="big-script"
+                         style="font-size:38px;">
+                        You + Me ♡
+                    </div>
+
+                    <button class="love-button next">
+                        <span>
+                            Then came our first year...
+                        </span>
+                    </button>
+
+                    <div class="page-number">
+                        05 · choosing each other
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE 6
+        ================================================== -->
+
+        <section class="scene">
+
+            <div class="content">
+
+                <div class="paper">
+
+                    <div class="tape"></div>
+
+                    <div class="small-title">
+                        Chapter 05
+                    </div>
+
+                    <h2 class="title">
+                        One whole year
+                    </h2>
+
+                    <div class="photo-stack">
+
+                        <div class="polaroid">
+
+                            <img
+                            src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=85">
+
+                            <div class="polaroid-note">
+                                year one ♡
+                            </div>
+
+                        </div>
+
+                        <div class="polaroid">
+
+                            <img
+                            src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=600&q=85">
+
+                            <div class="polaroid-note">
+                                still us ♡
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="date">
+                        NOVEMBER 26, 2024
+                    </div>
+
+                    <div class="memory">
+
+                        <p>
+                            One year since that first
+                            little Hello.
+                        </p>
+
+                        <p>
+                            One year of laughter,
+                            silly fights,
+                            late-night conversations,
+                            hugs and memories.
+                        </p>
+
+                        <p>
+                            <strong>
+                                One year of becoming "us".
+                            </strong>
+                        </p>
+
+                    </div>
+
+                    <button class="love-button next">
+                        <span>
+                            And then... year two ♡
+                        </span>
+                    </button>
+
+                    <div class="page-number">
+                        06 · 365 memories
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE 7
+        ================================================== -->
+
+        <section class="scene">
+
+            <div class="content">
+
+                <div class="paper">
+
+                    <div class="small-title">
+                        Chapter 06
+                    </div>
+
+                    <h2 class="title">
+                        Two years of us
+                    </h2>
+
+                    <div class="polaroid">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=700&q=85">
+
+                        <div class="polaroid-note">
+                            still my favorite ♡
+                        </div>
+
+                    </div>
+
+                    <div class="date">
+                        NOVEMBER 26, 2025
+                    </div>
+
+                    <div class="memory">
+
+                        <p>
+                            Two years.
+                        </p>
+
+                        <p>
+                            And somehow,
+                            you still make my heart
+                            do that little thing...
+                        </p>
+
+                        <p>
+                            the same feeling
+                            as that very first
+                            <strong>Hello.</strong>
+                        </p>
+
+                        <p>
+                            Thank you for being
+                            my favorite part of
+                            ordinary days.
+                        </p>
+
+                    </div>
+
+                    <div class="big-script"
+                         style="font-size:36px;">
+                        2 years ♡
+                    </div>
+
+                    <button class="love-button next">
+                        <span>
+                            But wait...
+                        </span>
+                    </button>
+
+                    <div class="page-number">
+                        07 · still choosing you
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE 8 — PHOTO WALL
+        ================================================== -->
+
+        <section class="scene">
+
+            <div class="content">
+
+                <div class="paper">
+
+                    <div class="small-title">
+                        Our little scrapbook
+                    </div>
+
+                    <h2 class="title">
+                        Tiny moments.<br>
+                        Big memories.
+                    </h2>
+
+                    <div class="photo-wall">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=500&q=85">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=500&q=85">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=500&q=85">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=500&q=85">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=500&q=85">
+
+                    </div>
+
+                    <div class="hand">
+                        If I could keep only one thing...
+                        <br>
+                        I'd keep these moments with you. ♡
+                    </div>
+
+                    <button class="love-button next">
+                        <span>
+                            I saved one more thing for you...
+                        </span>
+                    </button>
+
+                    <div class="page-number">
+                        08 · memories
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE 9 — ENVELOPE
+        ================================================== -->
+
+        <section class="scene">
+
+            <div class="content">
+
+                <div class="paper">
+
+                    <div class="small-title">
+                        A little something
+                    </div>
+
+                    <h2 class="title">
+                        I wrote this<br>
+                        just for you
+                    </h2>
+
+                    <div
+                        class="envelope"
+                        id="envelope">
+
+                        <div class="envelope-body"></div>
+
+                        <div class="envelope-flap"></div>
+
+                        <div class="seal">
+                            ♥
+                        </div>
+
+                    </div>
+
+                    <div class="hand">
+                        There's a letter inside...
+                    </div>
+
+                    <button
+                        class="love-button"
+                        id="openLetter">
+
+                        <span>
+                            Open it ♡
+                        </span>
+
+                    </button>
+
+                    <div class="page-number">
+                        09 · something from my heart
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE 10 — FINAL LETTER
+        ================================================== -->
+
+        <section class="scene">
+
+            <div class="content">
+
+                <div class="paper">
+
+                    <div class="small-title">
+                        From my heart
+                    </div>
+
+                    <h2 class="title">
+                        My love...
+                    </h2>
+
+                    <div class="final-letter">
+
+                        <p>
+                            Our story didn't begin with some
+                            grand movie scene.
+                        </p>
+
+                        <p>
+                            It began with one tiny
+                            <strong>Hello.</strong>
+                        </p>
+
+                        <p>
+                            And somehow, that little Hello
+                            became my favorite person,
+                            my favorite memories,
+                            my favorite smile,
+                            and my favorite part of every day.
+                        </p>
+
+                        <p>
+                            We've already filled so many
+                            pages together.
+                        </p>
+
+                        <p>
+                            But there are still so many
+                            pages waiting for us.
+                        </p>
+
+                        <p>
+                            More trips.
+                            More movies.
+                            More silly fights.
+                            More hugs.
+                            More photographs.
+                            More ordinary days
+                            that somehow become special
+                            because we're together.
+                        </p>
+
+                        <p>
+                            If I could go back to
+                            November 26, 2023...
+                        </p>
+
+                        <p>
+                            knowing everything I know today,
+                            I'd still open that message.
+                        </p>
+
+                        <p>
+                            I'd still say Hello.
+                        </p>
+
+                        <p>
+                            I'd still choose you.
+                        </p>
+
+                        <p>
+                            And tomorrow,
+                            I'd choose you again.
+                        </p>
+
+                        <div class="signature">
+                            Forever yours ♡
+                        </div>
+
+                    </div>
+
+                    <button class="love-button" id="finalButton">
+
+                        <span>
+                            One last thing...
+                        </span>
+
+                    </button>
+
+                    <div class="page-number">
+                        10 · forever
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PAGE 11 — FINAL SURPRISE
+        ================================================== -->
+
+        <section class="scene">
+
+            <div class="content">
+
+                <div class="paper">
+
+                    <div class="small-title">
+                        Our story
+                    </div>
+
+                    <div class="big-heart"></div>
+
+                    <h1 class="big-script">
+                        To be continued...
+                    </h1>
+
+                    <div class="memory">
+
+                        <p>
+                            This isn't the end.
+                        </p>
+
+                        <p>
+                            It's just the last page
+                            we've written so far.
+                        </p>
+
+                        <p>
+                            There are still
+                            <strong>
+                                thousands of little moments
+                            </strong>
+                            waiting for us.
+                        </p>
+
+                    </div>
+
+                    <div class="big-script"
+                         style="font-size:42px;margin-top:5px;">
+
+                        You & Me
+
+                    </div>
+
+                    <div class="hand"
+                         style="margin-top:10px;">
+
+                        From one little Hello...
+                        <br>
+                        to wherever forever takes us. ♡
+
+                    </div>
+
+                    <button
+                        class="love-button"
+                        onclick="restartStory()">
+
+                        <span>
+                            Read it again ♡
+                        </span>
+
+                    </button>
+
+                    <div class="page-number">
+                        ∞ · always
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   STORY ENGINE
+========================================================= */
+
+const scenes =
+    [...document.querySelectorAll(".scene")];
+
+let currentPage = 0;
+
+
+function showPage(page){
+
+    currentPage =
+        Math.max(
+            0,
+            Math.min(
+                page,
+                scenes.length - 1
+            )
+        );
+
+    scenes.forEach(
+        (scene,index)=>{
+
+            scene.classList.toggle(
+                "active",
+                index === currentPage
+            );
+
         }
-    </script>
+    );
+
+    createPetalBurst();
+}
+
+
+/* =========================================================
+   NORMAL NEXT BUTTONS
+========================================================= */
+
+document
+    .querySelectorAll(".next")
+    .forEach(button=>{
+
+        button.addEventListener(
+            "click",
+            ()=>{
+
+                showPage(
+                    currentPage + 1
+                );
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   ENVELOPE
+========================================================= */
+
+const envelope =
+    document.getElementById("envelope");
+
+const openLetter =
+    document.getElementById("openLetter");
+
+
+openLetter.addEventListener(
+    "click",
+    ()=>{
+
+        envelope.classList.add("open");
+
+        openLetter.querySelector("span")
+            .textContent =
+            "Opening... ♡";
+
+        setTimeout(
+            ()=>{
+                showPage(
+                    currentPage + 1
+                );
+            },
+            750
+        );
+
+    }
+);
+
+
+/* =========================================================
+   FINAL BUTTON
+========================================================= */
+
+document
+    .getElementById("finalButton")
+    .addEventListener(
+        "click",
+        ()=>{
+
+            createPetalBurst();
+
+            setTimeout(
+                ()=>{
+                    showPage(
+                        currentPage + 1
+                    );
+                },
+                300
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   RESTART
+========================================================= */
+
+function restartStory(){
+
+    showPage(0);
+
+}
+
+
+/* =========================================================
+   FLOATING PETALS
+========================================================= */
+
+function createPetal(){
+
+    const petal =
+        document.createElement("div");
+
+    petal.className =
+        "petal";
+
+    petal.textContent =
+        [
+            "♡",
+            "♥",
+            "✿",
+            "❀"
+        ][
+            Math.floor(
+                Math.random() * 4
+            )
+        ];
+
+    petal.style.left =
+        Math.random() * 100 + "%";
+
+    petal.style.fontSize =
+        (
+            13 +
+            Math.random() * 14
+        ) + "px";
+
+    petal.style.animationDuration =
+        (
+            5 +
+            Math.random() * 5
+        ) + "s";
+
+    petal.style.animationDelay =
+        Math.random() * 2 + "s";
+
+    document
+        .querySelector(".app")
+        .appendChild(petal);
+
+    setTimeout(
+        ()=>{
+            petal.remove();
+        },
+        10000
+    );
+
+}
+
+
+setInterval(
+    createPetal,
+    900
+);
+
+
+/* =========================================================
+   PAGE CHANGE PETAL BURST
+========================================================= */
+
+function createPetalBurst(){
+
+    for(
+        let i = 0;
+        i < 15;
+        i++
+    ){
+
+        setTimeout(
+            createPetal,
+            i * 55
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SWIPE SUPPORT
+========================================================= */
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+
+document.addEventListener(
+    "touchstart",
+    event=>{
+
+        touchStartX =
+            event.changedTouches[0].screenX;
+
+    },
+    {passive:true}
+);
+
+
+document.addEventListener(
+    "touchend",
+    event=>{
+
+        touchEndX =
+            event.changedTouches[0].screenX;
+
+        const difference =
+            touchStartX - touchEndX;
+
+        /*
+          Swipe left = next
+          Swipe right = previous
+        */
+
+        if(
+            Math.abs(difference) > 60
+        ){
+
+            if(difference > 0){
+
+                showPage(
+                    currentPage + 1
+                );
+
+            }
+            else{
+
+                showPage(
+                    currentPage - 1
+                );
+
+            }
+
+        }
+
+    },
+    {passive:true}
+);
+
+
+/* =========================================================
+   KEYBOARD SUPPORT
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event=>{
+
+        if(event.key === "ArrowRight"){
+
+            showPage(
+                currentPage + 1
+            );
+
+        }
+
+        if(event.key === "ArrowLeft"){
+
+            showPage(
+                currentPage - 1
+            );
+
+        }
+
+    }
+);
+
+</script>
+
 </body>
 </html>
-
